@@ -30,21 +30,20 @@ export default {
     );
   },
 
+  
   async scheduled(event, env, ctx) {
-  ctx.waitUntil((async () => {
-    const done = await env.SIGNAL_KV.get("telegram_test_sent");
+    ctx.waitUntil((async () => {
+      const done = await env.SIGNAL_KV.get("telegram_test_sent");
 
-    if (!done) {
-      await sendTelegram(env, "✅ پیام آزمایشی: اتصال ربات به تلگرام برقرار است.");
-      await env.SIGNAL_KV.put("telegram_test_sent", "yes");
-    }
+      if (!done) {
+        await sendTelegram(env, "✅ پیام آزمایشی: اتصال ربات به تلگرام برقرار است.");
+        await env.SIGNAL_KV.put("telegram_test_sent", "yes");
+      }
 
-    await checkMarkets(env);
-  })());
-}
+      await checkMarkets(env);
+    })());
   }
 };
-
 async function checkMarkets(env) {
   for (const market of SYMBOLS) {
     try {
